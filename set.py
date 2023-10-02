@@ -2,7 +2,7 @@ from email.message import EmailMessage
 import smtplib
 import openpyxl
 
-excel_dataframe = openpyxl.load_workbook('pruebaPy.xlsx')
+excel_dataframe = openpyxl.load_workbook('pacientes.xlsx')
 df = excel_dataframe.active
 
 def onlyName(name):
@@ -10,26 +10,37 @@ def onlyName(name):
     for i in name:
         nombre = nombre + i
         if i == ' ':
-            return nombre
+            return nombre.lower().capitalize()          
 
 ocho=[]
 ochoO = []
 doce=[]
 doceO=[]
 psa=[]
- 
-for row in df.iter_rows(min_row=2, values_only=True):
-    if row[3]==8:
+
+# for row in df.iter_rows(min_row=4, values_only=True):
+#     fecha = row[3]
+#     nombre = onlyName(row[20])
+#     email= row[29]
+#     pre= row[31] 
+    
+#     print(fecha)
+#     print(nombre)
+#     print(email)
+#     print(pre)
+
+for row in df.iter_rows(min_row=3, values_only=True):
+    if row[31]==8:
         ocho.append(row)
-    if row[3]==12:
+    if row[31]==12:
         doce.append(row)
-    if row[3]==120:
+    if row[31]==120:
         doceO.append(row)
 
 for row in ocho:
     destinatario = row[1]
-    nombre = onlyName(row[0])
-    fecha = str(row[4])
+    nombre = onlyName(row[20])
+    fecha = str(row[3])
     asunto = 'Indicaciones turno laboratorio '+ fecha
     firma = 'https://imgur.com/BXGZMDT'
 
